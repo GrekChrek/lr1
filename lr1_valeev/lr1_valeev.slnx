@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="lr1_valeev/lr1_valeev.vcxproj" Id="7a84c6ec-b80c-4a37-8214-ca6bfa6a222d" />
+</Solution>
