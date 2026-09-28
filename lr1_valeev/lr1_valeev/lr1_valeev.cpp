@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 struct pipe
@@ -18,11 +19,11 @@ struct cs
     char class1;
 };
 
-template <typename T>
-T proverka(double min, double max) {
-    T tipe;
+template <typename t>
+t proverka(double min, double max) {
+    t tipe;
     while (!(cin >> tipe) || cin.peek() != '\n' || tipe < min|| tipe > max) {
-        cout << "Enter the correct value:";
+        cout << "enter the correct value:";
         cin.clear();
         cin.ignore(100, '\n');
     }
@@ -74,13 +75,13 @@ void coutpipe(pipe p) {
         }
     }
     else {
-        cout << "\nFirst, enter the Pipe data\n";
+        cout << "\nfirst, enter the pipe data\n";
     }
 }
 
 void coutcs(cs c) {
     if (c.name != "") {
-        cout << "\nthese CS:\n";
+        cout << "\nthese cs:\n";
         cout << "\nname:";
         cout << c.name;
         cout << "\nthe number of stations:";
@@ -91,32 +92,92 @@ void coutcs(cs c) {
         cout << c.class1 << "\n";
     }
     else {
-        cout << "\nFirst, enter the CS data\n";
+        cout << "\nfirst, enter the cs data\n";
     }
 }
 
-pipe editPipe(pipe p) {
+pipe editpipe(pipe p) {
     if (p.name != "") {
-        cout << "\nchange in the operating condition of the pipe:" << "\nEnter whether the pipe is working(1-yes, 0-no):";
+        cout << "\nchange in the operating condition of the pipe:" << "\nenter whether the pipe is working(1-yes, 0-no):";
         p.work = proverka<bool>(0,100000);    
     }
     else {
-        cout << "\nFirst, enter the Pipe data\n";
+        cout << "\nfirst, enter the pipe data\n";
     }
     return p;
 }
 
-cs editCS(cs c) {
+cs editcs(cs c) {
     if (c.name != "") {
         cout << "\nchange in the number of operating stations" << "\nnumber of workstations(int):";
         c.quantity_w = proverka<int>(0,c.quantity);
     }
     else {
-        cout << "\nFirst, enter the CS data\n";
+        cout << "\nfirst, enter the cs data\n";
     }
     return c;
 }
 
+void save(pipe p,cs c) {
+    ofstream out("data.txt");
+    if (!out) { cout << "\ncan not open file\n";}
+    else {
+        if (p.name != "") {
+            out << "Pipe:";
+            out << endl << p.name;
+            out << endl << p.length;
+            out << endl << p.diametr;
+            out << endl << p.work;
+        }
+        else { out << "first, enter the pipe data\n"; }
+
+        if (c.name != "") {
+            out << "\ncs:";
+            out << endl << c.name;
+            out << endl << c.quantity;
+            out << endl << c.quantity_w;
+            out << endl << c.class1;
+        }
+        else { out << "\nfirst, enter the cs data"; }
+    }
+    out.close();
+    cout << "\nsaved\n";
+
+}
+
+pipe loadPipe(ifstream& in) {
+    string x;
+    pipe p;
+    getline(in, x);
+    if (x == "Pipe:") {
+        getline(in, p.name);
+        in >> p.length;
+        in.ignore();
+        in >> p.diametr;
+        in.ignore();
+        in >> p.work;
+        in.ignore();
+        cout << "\nsaved\n";
+    }
+    return p;
+}
+
+cs loadCS(ifstream& in) {
+    cs c;
+    string x;
+    getline(in, x);
+    if (x == "cs:") {
+        getline(in, c.name);
+        in >> c.quantity;
+        in.ignore();
+        in >> c.quantity_w;
+        in.ignore();
+        in >> c.class1;
+        in.ignore();
+        cout << "\nsaved\n";
+    }
+    return c;
+}
 
 int main()
 {
@@ -145,18 +206,28 @@ int main()
                 break;
             }
             case 4: {
-                p = editPipe(p);
+                p = editpipe(p);
                 break;
             }
             case 5: {
-                c = editCS(c);
+                c = editcs(c);
                 break;
             }
             case 6: {
+                save(p, c);
                 break;
 
             }
             case 7: {
+                ifstream in("data.txt");
+                if (!in) {
+                    cout << "\nFile not found\n";
+                    break;
+                }
+                p = loadPipe(in);
+                c = loadCS(in);
+                in.close();
+                cout << "\nLoaded\n";
                 break;
             }
             case 0: {
