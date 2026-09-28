@@ -40,7 +40,7 @@ cs cincs() {
     cin >> c.quantity;
     cout << "\nnumber of workstations:";
     cin >> c.quantity_w;
-    cout << "\nstation class(a b c):";
+    cout << "\nstation class";
     cin >> c.class1;
     return c;
 }
@@ -76,7 +76,7 @@ cs coutcs(cs c) {
         cout << c.quantity;
         cout << "\nmy diametr:";
         cout << c.quantity_w;
-        cout << "\nmy class:";
+        cout << "\nmy class";
         cout << c.class1 << "\n";
     }
     else {
