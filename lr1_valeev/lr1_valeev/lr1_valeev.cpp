@@ -13,46 +13,58 @@ struct pipe
 struct cs
 {
     string name;
-    unsigned int quantity;
-    unsigned int quantity_w;
+    int quantity;
+    int quantity_w;
     char class1;
 };
+
+template <typename T>
+T proverka(double min, double max) {
+    T tipe;
+    while (!(cin >> tipe) || cin.peek() != '\n' || tipe < min|| tipe > max) {
+        cout << "Enter the correct value:";
+        cin.clear();
+        cin.ignore(100, '\n');
+    }
+    return tipe;
+}
+
 
 pipe cinpipe() {
     cout << "\nadd pipe:\n";
     pipe p;
-    cout << "say my name:";
+    cout << "name:";
     getline(cin>>ws, p.name);
-    cout << "\ncheck my length:";
-    cin >> p.length;
-    cout << "\ncheck my diametr:";
-    cin >> p.diametr;
-    cout << "\nam i working? (1-yes 0-no)";
-    cin >> p.work;
+    cout << "length (double):";
+    p.length = proverka<double>(0,10000);
+    cout << "diametr (int):";
+    p.diametr = proverka<int>(0, 10000);
+    cout << "am i working? (1-yes 0-no)";
+    p.work = proverka<bool>(0, 10000);
     return p;
 }
 cs cincs() {
     cout << "\nadd cs:\n";
     cs c;
-    cout << "say my name:";
+    cout << "name:";
     getline(cin >> ws, c.name);
-    cout << "\nthe number of stations:";
-    cin >> c.quantity;
-    cout << "\nnumber of workstations:";
-    cin >> c.quantity_w;
-    cout << "\nstation class(a b c):";
-    cin >> c.class1;
+    cout << "the number of stations(int):";
+    c.quantity = proverka<int>(0, 10000);
+    cout << "number of workstations(int):";
+    c.quantity_w = proverka<int>(0,c.quantity);
+    cout << "station class(char):";
+    c.class1 = proverka<char>(0,100000);
     return c;
 }
 
-pipe coutpipe(pipe p) {
+void coutpipe(pipe p) {
     if (p.name != "") {
         cout << "\nthese pipes:\n";
-        cout << "\nmy name:";
+        cout << "\nname:";
         cout << p.name;
-        cout << "\nmy length:";
+        cout << "\nlength:";
         cout << p.length;
-        cout << "\nmy diametr:";
+        cout << "\ndiametr:";
         cout << p.diametr;
         if (p.work) {
             cout << "\ni am working\n";
@@ -62,61 +74,82 @@ pipe coutpipe(pipe p) {
         }
     }
     else {
-        cout << "\nFirst, enter the data\n";
+        cout << "\nFirst, enter the Pipe data\n";
     }
-    return (p);
 }
 
-cs coutcs(cs c) {
+void coutcs(cs c) {
     if (c.name != "") {
-        cout << "\nthese pipes:\n";
-        cout << "\nmy name:";
+        cout << "\nthese CS:\n";
+        cout << "\nname:";
         cout << c.name;
-        cout << "\nmy length:";
+        cout << "\nthe number of stations:";
         cout << c.quantity;
-        cout << "\nmy diametr:";
+        cout << "\nthe number of operating stations:";
         cout << c.quantity_w;
-        cout << "\nmy class:";
+        cout << "\nclass:";
         cout << c.class1 << "\n";
     }
     else {
-        cout << "\nFirst, enter the data\n";
+        cout << "\nFirst, enter the CS data\n";
     }
-    return (c);
 }
-    
+
+pipe editPipe(pipe p) {
+    if (p.name != "") {
+        cout << "\nchange in the operating condition of the pipe:" << "\nEnter whether the pipe is working(1-yes, 0-no):";
+        p.work = proverka<bool>(0,100000);    
+    }
+    else {
+        cout << "\nFirst, enter the Pipe data\n";
+    }
+    return p;
+}
+
+cs editCS(cs c) {
+    if (c.name != "") {
+        cout << "\nchange in the number of operating stations" << "\nnumber of workstations(int):";
+        c.quantity_w = proverka<int>(0,c.quantity);
+    }
+    else {
+        cout << "\nFirst, enter the CS data\n";
+    }
+    return c;
+}
+
 
 int main()
 {
     cout << "\namigas detka\n";
     string text = "\n 1. add pipe\n 2. add cs\n 3. view all objects\n 4. edit pipe\n 5. edit cs\n 6. save\n 7. upload\n 0. exit\n";
-    pipe trubi;
-    cs cs;
+    pipe p;
+    cs c;
     int t = true;
     while (t)
     {
         cout << text;
         int y;
-        cin >> y;
+        y = proverka<int>(0,7);
         switch (y) {
             case 1: {
-                trubi = cinpipe();
+                p = cinpipe();
                 break;
             }
             case 2: {
-                cs = cincs();
+                c = cincs();
                 break;
             }
             case 3: {
-                coutpipe(trubi);
+                coutpipe(p);
+                coutcs(c);
                 break;
             }
             case 4: {
-                coutcs(cs);
+                p = editPipe(p);
                 break;
             }
             case 5: {
-                
+                c = editCS(c);
                 break;
             }
             case 6: {
@@ -137,309 +170,3 @@ int main()
     }
     cout << "\narevuar detka\n";
 }
-
-//#include <iostream>
-//#include <fstream>
-//#include <string>
-//
-//using namespace std;
-//
-//struct Pipe {
-//	string name;
-//	double length = {}; // в километрах
-//	int diameter = {}; // в миллиметрах
-//	bool underRepair = {}; // true - труба на ремонте, false - труба в рабочем состоянии
-//};
-//
-//struct CS {
-//	string name;
-//	int totalShops = {}; // количество цехов
-//	int totalWorkingShops = {}; // количество рабочих цехов
-//	char classStation = {}; // класс станции (a,b,c)
-//};
-//
-//template <typename T>
-//void readValid(T& value, const string& prompt) {
-//	while (true) {
-//		cout << prompt;
-//		if (cin.peek() == ' ' || cin.peek() == '\t' || cin.peek() == '\n') {
-//			cerr << "Ошибка: нельзя начинать с пробела/таба/переноса строки" << endl;
-//			cin.clear();
-//			cin.ignore(100, '\n');
-//			continue;
-//		}
-//		cin >> value;
-//		if (cin.fail() || cin.peek() != '\n') {
-//			cerr << "Ошибка: некорректный ввод" << endl;
-//			cin.clear();
-//			cin.ignore(100, '\n');
-//			continue;
-//		}
-//		cin.ignore(100, '\n');
-//		return;
-//	}
-//}
-//
-//Pipe inputPipe(Pipe& p) {
-//	while (true) {
-//		cout << "Введите название трубы: ";
-//		getline(cin, p.name);
-//		if (p.name.empty() || p.name[0] == ' ' || p.name[0] == '\t' ||
-//			p.name[p.name.size() - 1] == ' ' || p.name[p.name.size() - 1] == '\t') {
-//			cerr << "Ошибка: некорректный ввод" << endl;
-//			continue;
-//		}
-//		break;
-//	}
-//	while (true) {
-//		readValid(p.length, "Введите длину трубы (в километрах): ");
-//		if (p.length <= 0) {
-//			cerr << "Ошибка: длина должна быть положительной" << endl;
-//			continue;
-//		}
-//		break;
-//	}
-//	while (true) {
-//		readValid(p.diameter, "Введите диаметр трубы (в миллиметрах): ");
-//		if (p.diameter <= 0) {
-//			cerr << "Ошибка: диаметр должен быть положительным" << endl;
-//			continue;
-//		}
-//		break;
-//	}
-//	while (true) {
-//		readValid(p.underRepair, "Введите состояние трубы (1 - на ремонте, 0 - в рабочем состоянии): ");
-//		if (p.underRepair != 0 && p.underRepair != 1) {
-//			cerr << "Ошибка: введите 0 или 1" << endl;
-//			continue;
-//		}
-//		break;
-//	}
-//	return p;
-//}
-//
-//
-//CS inputCS(CS& cs) {
-//	while (true) {
-//		cout << "Введите название станции: ";
-//		getline(cin, cs.name);
-//		if (cs.name.empty() || cs.name[0] == ' ' || cs.name[0] == '\t' ||
-//			cs.name[cs.name.size() - 1] == ' ' || cs.name[cs.name.size() - 1] == '\t') {
-//			cerr << "Ошибка: некорректный ввод" << endl;
-//			continue;
-//		}
-//		break;
-//	}
-//	while (true) {
-//		readValid(cs.totalShops, "Введите количество цехов: ");
-//		if (cs.totalShops <= 0) {
-//			cerr << "Ошибка: кол-во цехов должно быть положительной" << endl;
-//			continue;
-//		}
-//		break;
-//	}
-//	while (true) {
-//		readValid(cs.totalWorkingShops, "Введите количество рабочих цехов: ");
-//		if (cs.totalWorkingShops <= 0 || cs.totalWorkingShops > cs.totalShops) {
-//			cerr << "Ошибка: кол-во рабочих цехов должно быть положительным числом и не может быть больше общего числа цехов" << endl;
-//			continue;
-//		}
-//		break;
-//	}
-//	while (true) {
-//		readValid(cs.classStation, "Введите класс станции (a,b,c): ");
-//		if (cs.classStation != 'a' && cs.classStation != 'b' && cs.classStation != 'c') {
-//			cerr << "Ошибка: класс станции - только a,b,c" << endl;
-//			continue;
-//		}
-//		break;
-//	}
-//	return cs;
-//}
-//
-//bool isvalidPipe(Pipe& p) {
-//	if (p.diameter == 0) {
-//		return false;
-//	}
-//	return true;
-//}
-//
-//bool isvalidCS(CS& cs) {
-//	if (cs.totalShops == 0) {
-//		return false;
-//	}
-//	return true;
-//}
-//
-//void editPipe(Pipe& p) {
-//	int t = 0;
-//	cout << "Редактирование признака в ремонте:" << endl;
-//	cout << "Текущее состояние: " << p.underRepair << endl;
-//	while (true) {
-//		readValid(t, "Изменить?(1-да/0-нет): ");
-//		if (t != 0 && t != 1) {
-//			cerr << "Ошибка: введите 1 - изменить, 0 - нет" << endl;
-//			continue;
-//		}
-//		else {
-//			p.underRepair = t == 1 ? !(p.underRepair) : p.underRepair;
-//			break;
-//		}
-//	}
-//}
-//
-//void editCS(CS& cs) {
-//	int k = 0;
-//	cout << "Редактирование кол-ва рабочих цехов:" << endl;
-//	cout << "Общее кол-во цехов: " << cs.totalShops << endl;
-//	cout << "Текущее состояние: " << cs.totalWorkingShops << endl;
-//	while (true) {
-//		readValid(k, "Введите новое кол-во рабочих цехов: ");
-//		if (k <= 0 || k > cs.totalShops) {
-//			cerr << "Ошибка: кол-во рабочих цехов должно быть положительным числом и не может быть больше общего числа цехов" << endl;
-//			continue;
-//		}
-//		else {
-//			cs.totalWorkingShops = k;
-//			break;
-//		}
-//	}
-//}
-//
-//void outputPipe(Pipe p) {
-//	cout << "Вывод данных для трубы:" << endl;
-//	cout << "Название трубы: " << p.name << endl;
-//	cout << "Длина трубы: " << p.length << " км" << endl;
-//	cout << "Диаметр трубы: " << p.diameter << " мм" << endl;
-//	cout << "Состояние трубы: " << (p.underRepair ? "На ремонте" : "В рабочем состоянии") << endl;
-//}
-//
-//void outputCS(CS cs) {
-//	cout << "Вывод данных для станции:" << endl;
-//	cout << "Название станции: " << cs.name << endl;
-//	cout << "Количество цехов: " << cs.totalShops << endl;
-//	cout << "Количество рабочих цехов: " << cs.totalWorkingShops << endl;
-//	cout << "Класс станции: " << cs.classStation << endl;
-//}
-//
-//void savedPipe(ofstream& outFile, Pipe p) {
-//	outFile << "Pipe:" << endl;
-//	outFile << p.name << endl;
-//	outFile << p.length << endl;
-//	outFile << p.diameter << endl;
-//	outFile << p.underRepair << endl;
-//}
-//
-//void savedCS(ofstream& outFile, CS cs) {
-//	outFile << "CS:" << endl;
-//	outFile << cs.name << endl;
-//	outFile << cs.totalShops << endl;
-//	outFile << cs.totalWorkingShops << endl;
-//	outFile << cs.classStation << endl;
-//}
-//
-//void read(ifstream& inFile, Pipe& p, CS& cs) {
-//	string header;
-//	while (getline(inFile, header)) {
-//		if (header == "Pipe:") {
-//			getline(inFile >> ws, p.name);
-//			inFile >> p.length;
-//			inFile >> p.diameter;
-//			inFile >> p.underRepair;
-//		}
-//		else if (header == "CS:") {
-//			getline(inFile >> ws, cs.name);
-//			inFile >> cs.totalShops;
-//			inFile >> cs.totalWorkingShops;
-//			inFile >> cs.classStation;
-//		}
-//		else {
-//			cerr << "Файл поврежден" << endl;
-//			break;
-//		}
-//	}
-//}
-//
-//void command(int action, Pipe& p, CS& cs) {
-//	if (action == 1) {
-//		cout << "Введите данные для трубы:" << endl;
-//		inputPipe(p);
-//	}
-//	else if (action == 2) {
-//		cout << "Введите данные для станции:" << endl;
-//		inputCS(cs);
-//	}
-//	else if (action == 3) {
-//		if (isvalidPipe(p)) {
-//			outputPipe(p);
-//			cout << endl;
-//		}
-//		if (isvalidCS(cs)) {
-//			outputCS(cs);
-//			cout << endl;
-//		}
-//	}
-//	else if (action == 4) {
-//		if (isvalidPipe(p)) {
-//			editPipe(p);
-//		}
-//	}
-//	else if (action == 5) {
-//		if (isvalidCS(cs)) {
-//			editCS(cs);
-//		}
-//	}
-//	else if (action == 6) {
-//		ofstream outFile;
-//		outFile.open("result.txt");
-//		if (!outFile.is_open()) {
-//			cerr << "Ошибка: не удалось открыть файл" << endl;
-//		}
-//		else {
-//			if (isvalidPipe(p)) {
-//				savedPipe(outFile, p);
-//				cout << "Труба добавлена в файл!" << endl;
-//			}
-//			if (isvalidCS(cs)) {
-//				savedCS(outFile, cs);
-//				cout << "КС добавлена в файл!" << endl;
-//			}
-//		}
-//		outFile.close();
-//	}
-//	else if (action == 7) {
-//		ifstream inFile;
-//		inFile.open("result.txt");
-//		if (!inFile.is_open()) {
-//			cerr << "Ошибка: не удалось открыть файл" << endl;
-//		}
-//		else if (inFile.peek() == EOF) {
-//			cout << "Предупреждение: файл пуст" << endl;
-//		}
-//		else {
-//			read(inFile, p, cs);
-//			cout << "Данные успешно считаны!" << endl;
-//		}
-//		inFile.close();
-//	}
-//	else {
-//		cerr << "Ошибка: введите номер команды из списка (0-7)" << endl;
-//	}
-//}
-//
-//int main() {
-//	string menu = "Меню\n1.Добавить трубу\n2.Добавить КС\n3.Просмотр всех объектов\n4.Редактировать трубу\n5.Редактировать КС\n6.Сохранить\n7.Загрузить\n0.Выход\n";
-//	Pipe p = {};
-//	CS cs = {};
-//	while (true) {
-//		int action;
-//		readValid(action, menu);
-//		if (action == 0) {
-//			return 0;
-//		}
-//		else {
-//			command(action, p, cs);
-//		}
-//	}
-//	return 0;
-//}
