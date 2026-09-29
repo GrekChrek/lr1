@@ -1,6 +1,10 @@
-first, enter the pipe data
+Pipe:
+1
+1
+1
+1
 cs:
-gat
-45
-20
-g
+1
+1
+1
+1

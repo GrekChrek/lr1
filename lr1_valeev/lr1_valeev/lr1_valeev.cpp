@@ -32,7 +32,7 @@ t proverka(double min, double max) {
 }
 
 
-void cinpipe( pipe& p) {
+void cinpipe(pipe& p) {
     cout << "\nadd pipe:\n";
     cout << "name:";
     getline(cin>>ws, p.name);
@@ -55,7 +55,7 @@ void cincs(cs& c) {
     c.class1 = proverka<char>(0,100000);
 }
 
-void coutpipe(pipe p) {
+void coutpipe(const pipe& p) {
     if (p.name != "") {
         cout << "\nthese pipes:\n";
         cout << "\nname:";
@@ -76,7 +76,7 @@ void coutpipe(pipe p) {
     }
 }
 
-void coutcs(cs c) {
+void coutcs(const cs& c) {
     if (c.name != "") {
         cout << "\nthese cs:\n";
         cout << "\nname:";
@@ -113,7 +113,7 @@ void editcs(cs& c) {
     }
 }
 
-void save(const pipe p,const cs c) {
+void save(const pipe& p,const cs& c) {
     ofstream out("data.txt");
     if (!out) { cout << "\ncan not open file\n";}
     else {
@@ -140,9 +140,8 @@ void save(const pipe p,const cs c) {
 
 }
 
-pipe loadPipe(ifstream& in) {
+void loadPipe(ifstream& in, pipe& p) {
     string x;
-    pipe p;
     getline(in, x);
     if (x == "Pipe:") {
         getline(in, p.name);
@@ -154,11 +153,9 @@ pipe loadPipe(ifstream& in) {
         in.ignore();
         cout << "\nsaved\n";
     }
-    return p;
 }
 
-cs loadCS(ifstream& in) {
-    cs c;
+void loadCS(ifstream& in,cs& c) {
     string x;
     getline(in, x);
     if (x == "cs:") {
@@ -171,7 +168,6 @@ cs loadCS(ifstream& in) {
         in.ignore();
         cout << "\nsaved\n";
     }
-    return c;
 }
 
 int main()
@@ -219,8 +215,8 @@ int main()
                     cout << "\nFile not found\n";
                     break;
                 }
-                p = loadPipe(in);
-                c = loadCS(in);
+                loadPipe(in, p);
+                loadCS(in, c);
                 in.close();
                 cout << "\nLoaded\n";
                 break;
