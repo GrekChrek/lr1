@@ -1,10 +1,6 @@
-Pipe:
-lox
-12
-12
-1
+first, enter the pipe data
 cs:
-kaka
-112
-111
-3
+gat
+45
+20
+g
