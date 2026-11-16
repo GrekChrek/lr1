@@ -16,8 +16,24 @@ int Pipe::getID() const
 	return ID;
 }
 
+std::string Pipe::getName() const
+{
+	return name;
+}
+
+bool Pipe::getstatus() const
+{
+	return status;
+}
+
+void Pipe::editstatus()
+{
+	status = !(status);
+}
+
 std::istream& operator>>(std::istream& in, Pipe& p)
 {
+	cout << "\nadd Pipe:\n";
 	cout << "name:";
 	p.name = proverka();
 	cout << "length (double):";
