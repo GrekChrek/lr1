@@ -36,11 +36,11 @@ void menu(int action,
         break;
     }
     case 6: {
-        delet(pipes);
+        delet(pipes, logfile);
         break;
     }
     case 7: {
-        delet(css);
+        delet(css, logfile);
         break;
     }
     case 8: {
@@ -48,7 +48,7 @@ void menu(int action,
         cout << "Choose how to search: 1 — by name, 2 — by attribute\n";
         i = proverka<int>(1, 2);
 
-        auto found = distributionPipes(pipes, i);
+        unordered_map<int, Pipe> found = distributionPipes(pipes, i, logfile);
 
         if (!found.empty()) {
             cout << "Choose action: 1 — edit, 2 — delete\n";
@@ -66,7 +66,7 @@ void menu(int action,
         cout << "Choose how to search: 1 — by name, 2 — by percent\n";
         i = proverka<int>(1, 2);
 
-        auto found = distributionStations(css, i);
+        auto found = distributionStations(css, i, logfile);
 
         if (!found.empty()) {
             cout << "Choose action: 1 — edit, 2 — delete\n";
@@ -75,7 +75,7 @@ void menu(int action,
             if (choice == 1)
                 massEditStations(css, found, logfile);
             else
-                massDelete(css, found, logfile);
+                massDelete(pipes, found, logfile);;
         }
         break;
     }

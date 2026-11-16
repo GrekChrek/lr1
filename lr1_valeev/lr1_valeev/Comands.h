@@ -27,7 +27,10 @@ void output(
 }
 
 template<typename Item>
-void delet(std::unordered_map<int, Item>& items) {
+void delet(
+    std::unordered_map<int, Item>& items,
+    std::ofstream& logfile)
+{
     std::cout << "Enter the ID you want to delete:";
     int id;
     id = proverka<int>(1, 999999);
@@ -101,7 +104,8 @@ std::unordered_map<int, Item> searchByUnusedWorkshops(
 
 std::unordered_map<int, Pipe> distributionPipes(
     const std::unordered_map<int, Pipe>& pipes,
-    int i)
+    int i,
+    std::ofstream& logfile)
 {
     std::unordered_map<int, Pipe> result;
 
@@ -125,7 +129,8 @@ std::unordered_map<int, Pipe> distributionPipes(
 
 std::unordered_map<int, Station> distributionStations(
     const std::unordered_map<int, Station>& css,
-    int i)
+    int i,
+    std::ofstream& logfile)
 {
     std::unordered_map<int, Station> result;
     if (i == 1) {
@@ -177,7 +182,7 @@ void saveData(
         file << item.second;
     }
     std::cout << "Data saved!\n";
-    logfile << "Data saved to: " << filename << '\n';
+    logfile <<  filename << '\n';
 }
 
 template<typename Item>
@@ -288,15 +293,25 @@ inline void massEditStations(
         << found.size() << '\n';
 }
 
-template<typename Item>
-inline void massDelete(
-    std::unordered_map<int, Item>& items,
-    const std::unordered_map<int, Item>& found,
+template<typename Item1, typename Item2>
+void massDelete(
+    std::unordered_map<int, Item1>& items,
+    const std::unordered_map<int, Item2>& found,
     std::ofstream& logfile)
 {
-    for (const auto& item : found)
+    for (auto& item : found)
         items.erase(item.first);
 
     std::cout << "deleted!\n";
-    logfile << "Deleted: " << found.size() << '\n';
+    logfile << found.size() << '\n';
 }
+
+
+//void writeLog(std::ofstream& logfile, int action, bool success = true)
+//{
+//    if (action < 10)
+//        logfile << "0";
+//
+//    logfile << action << '\n';
+//    logfile.flush();
+//}
