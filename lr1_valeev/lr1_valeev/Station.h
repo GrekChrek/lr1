@@ -7,7 +7,7 @@ class Station
 {
 private:
 	static int NextId;
-	int id = {};
+	int ID = {};
 	std::string name;
 	int totalShops = {}; // количество цехов
 	int totalWorkingShops = {}; // количество рабочих цехов

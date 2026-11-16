@@ -9,12 +9,12 @@ int Station::NextId = 1;
 
 Station::Station()
 {
-	id = NextId++;
+	ID = NextId++;
 }
 
 int Station::getID() const
 {
-	return id;
+	return ID;
 }
 
 std::string Station::getName() const
@@ -54,19 +54,19 @@ std::istream& operator>>(istream& in, Station& cs)
 }
 
 std::ifstream& operator>>(ifstream& inF, Station& cs) {
-	inF >> cs.id;
+	inF >> cs.ID;
 	inF.ignore(100, '\n');
 	getline(inF, cs.name);
 	inF >> cs.totalShops;
 	inF >> cs.totalWorkingShops;
 	inF >> cs.classStation;
-	Station::NextId = cs.id + 1;
+	Station::NextId = cs.ID + 1;
 	return inF;
 }
 
 std::ostream& operator<<(ostream& out, const Station& cs)
 {
-	out << "Station ID: " << cs.id << endl;
+	out << "Station ID: " << cs.ID << endl;
 	out << "Station name: " << cs.name << endl;
 	out << "Number of workshops: " << cs.totalShops << endl;
 	out << "Number of working workshops: " << cs.totalWorkingShops << endl;
@@ -76,7 +76,7 @@ std::ostream& operator<<(ostream& out, const Station& cs)
 
 std::ofstream& operator<<(ofstream& outF, const Station& cs)
 {
-	outF << cs.id << endl;
+	outF << cs.ID << endl;
 	outF << cs.name << endl;
 	outF << cs.totalShops << endl;
 	outF << cs.totalWorkingShops << endl;
