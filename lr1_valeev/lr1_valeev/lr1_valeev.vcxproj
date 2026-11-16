@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Comands.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="Station.h" />

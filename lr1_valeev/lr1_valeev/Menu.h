@@ -4,7 +4,7 @@
 #include "Station.h"
 #include <string>
 
-void command(
+void menu(
     int action,
     std::unordered_map<int, Pipe>& pipes,
     std::unordered_map<int, Station>& css

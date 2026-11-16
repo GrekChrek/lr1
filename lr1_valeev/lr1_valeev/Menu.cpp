@@ -1,38 +1,8 @@
 #include "Menu.h"
 #include "Validation.h"
-template<typename Item>
-void input(std::unordered_map<int, Item>& items) {
-    Item item;
-    std::cin >> item;
-    items.emplace(item.getID(), item);
-}
+#include "Comands.h"
 
-template<typename Item>
-void output(const std::unordered_map<int, Item>& items, const std::string& prompt) {
-    if (!items.empty()) {
-        std::cout << prompt << std::endl;
-        for (const auto& item : items) {
-            std::cout << item.second;
-            std::cout << std::endl;
-        }
-    }
-}
-template<typename Item>
-void delet(std::unordered_map<int, Item>& items) {
-    std::cout << "Enter the ID you want to delete:";
-    int id;
-    id = proverka<int>(1,999999);
-    if (items.erase(id)) {
-        std::cout << "The element has been found and removed" << std::endl;
-    }
-    else {
-        std::cout << "There was no element with that ID" << std::endl;
-    }
-}
-
-
-
-void command(int action,
+void menu(int action,
     std::unordered_map<int, Pipe>& pipes,
     std::unordered_map<int, Station>& css) {
     switch (action) {
@@ -56,6 +26,7 @@ void command(int action,
         break;
     }
     case 4: {
+
         break;
     }
     case 5: {
@@ -70,9 +41,17 @@ void command(int action,
         break;
     }
     case 8: {
+        int i;
+        cout << "Choose how to search: 1 — by name, 2 — by attribute\n";
+        i = proverka<int>(1, 2);
+        distributionPipes(pipes,i);
         break;
     }
     case 9: {
+        int i;
+        cout << "Choose how to search: 1 — by name, 2 — by percent\n";
+        i = proverka<int>(1, 2);
+        distributionStations(css, i);
         break;
     }
     }
