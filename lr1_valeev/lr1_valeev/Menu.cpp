@@ -1,6 +1,5 @@
-#include"Menu.h"
-using namespace std;
-
+#include "Menu.h"
+#include "Validation.h"
 template<typename Item>
 void input(std::unordered_map<int, Item>& items) {
     Item item;
@@ -18,6 +17,20 @@ void output(const std::unordered_map<int, Item>& items, const std::string& promp
         }
     }
 }
+template<typename Item>
+void delet(std::unordered_map<int, Item>& items) {
+    std::cout << "Enter the ID you want to delete:";
+    int id;
+    id = proverka<int>(1,999999);
+    if (items.erase(id)) {
+        std::cout << "The element has been found and removed" << std::endl;
+    }
+    else {
+        std::cout << "There was no element with that ID" << std::endl;
+    }
+}
+
+
 
 void command(int action,
     std::unordered_map<int, Pipe>& pipes,
@@ -34,7 +47,7 @@ void command(int action,
     }
     case 3: {
         if (pipes.empty() && css.empty()) {
-            cout << "Warning: The pipe and CS have not been created." << endl;
+            cout << "Warning: The pipe and CS have not been created." << std::endl;
         }
         else {
             output(pipes, "Data output for the pipe:");
@@ -49,10 +62,17 @@ void command(int action,
         break;
     }
     case 6: {
+        delet(pipes);
         break;
-
     }
     case 7: {
+        delet(css);
+        break;
+    }
+    case 8: {
+        break;
+    }
+    case 9: {
         break;
     }
     }

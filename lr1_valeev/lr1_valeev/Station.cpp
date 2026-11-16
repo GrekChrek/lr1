@@ -66,11 +66,11 @@ std::ifstream& operator>>(ifstream& inF, Station& cs) {
 
 std::ostream& operator<<(ostream& out, const Station& cs)
 {
-	out << "ID станции: " << cs.id << endl;
-	out << "Название станции: " << cs.name << endl;
-	out << "Количество цехов: " << cs.totalShops << endl;
-	out << "Количество рабочих цехов: " << cs.totalWorkingShops << endl;
-	out << "Класс станции: " << cs.classStation << endl;
+	out << "Station ID: " << cs.id << endl;
+	out << "Station name: " << cs.name << endl;
+	out << "Number of workshops: " << cs.totalShops << endl;
+	out << "Number of working workshops: " << cs.totalWorkingShops << endl;
+	out << "Station class: " << cs.classStation << endl;
 	return out;
 }
 

@@ -1,15 +1,15 @@
 #include "Validation.h"
-using namespace std;
+
 
 std::string proverka()
 {
-    string name;
+    std::string name;
     while (true)
     {
-        getline(cin, name);
-        if (name.find_first_not_of(' ') == string::npos)
+        getline(std::cin, name);
+        if (name.find_first_not_of(' ') == std::string::npos)
         {
-            cout << "Enter the correct name: ";
+            std::cout << "Enter the correct name: ";
 
         }
         else
