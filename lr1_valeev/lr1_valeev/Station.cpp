@@ -43,7 +43,6 @@ void Station::editTotalWorkingShops(double workshopPercentage)
 std::istream& operator>>(istream& in, Station& cs)
 {
 	cout << "\nadd cs:\n";
-	cout << "name:";
 	cs.name = proverka();
 	cout << "the number of stations(int):";
 	cs.totalShops = proverka<int>(0, 10000);

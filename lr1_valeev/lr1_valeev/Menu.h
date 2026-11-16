@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include "Pipe.h"
 #include "Station.h"
+#include <string>
 
 void command(
     int action,

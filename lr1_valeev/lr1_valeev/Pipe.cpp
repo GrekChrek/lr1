@@ -34,7 +34,6 @@ void Pipe::editstatus()
 std::istream& operator>>(std::istream& in, Pipe& p)
 {
 	cout << "\nadd Pipe:\n";
-	cout << "name:";
 	p.name = proverka();
 	cout << "length (double):";
 	p.length = proverka<double>(0, 10000);
